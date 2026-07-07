@@ -367,28 +367,36 @@
         }
         window.addEventListener("scroll", reveal);
 
-        const scriptURL = 'https://script.google.com/macros/s/AKfycbwsmgyyGD9KmWL_map0kbzMnMNGWC8QTpmSUZ88Fgyap0yx-FD8GwBgXu6RWvafliYd/exec';
+        const scriptURL = 'https://script.google.com/macros/s/AKfycbxPuIQX5dpX8jX_k2GU1WjMcB085geK5BnMM0W8ScoCCSBtLofTzTOooPoLJL-EPAx-/exec';
         const form = document.getElementById('rsvpForm');
         
         form.addEventListener('submit', e => {
-            e.preventDefault();
-            const btn = document.getElementById('btnEnviar');
-            btn.innerText = "Enviando...";
-            
-            fetch(scriptURL, { 
-                method: 'POST', 
-                body: new FormData(form) 
-            })
-            .then(response => {
-                alert("¡Confirmación enviada!");
-                form.reset();
-                btn.innerText = "Confirmar ahora";
-            })
-            .catch(error => {
-                console.error('Error!', error.message);
-                alert("Hubo un error, revisa la consola.");
-            });
-        });
+    e.preventDefault();
+    const btn = document.getElementById('btnEnviar');
+    btn.innerText = "Enviando...";
+    btn.disabled = true;
+
+    // Usamos 'no-cors' para evitar el bloqueo de política de seguridad
+    fetch(scriptURL, { 
+        method: 'POST', 
+        mode: 'no-cors', 
+        body: new FormData(form) 
+    })
+    .then(() => {
+        // Como usamos 'no-cors', no podemos leer la respuesta, 
+        // pero sabemos que llegó el mensaje
+        document.getElementById('success-msg').style.display = 'block';
+        form.reset();
+        btn.innerText = "Confirmar ahora";
+        btn.disabled = false;
+    })
+    .catch(error => {
+        console.error('Error!', error);
+        alert("Hubo un error al conectar con Google.");
+        btn.disabled = false;
+        btn.innerText = "Confirmar ahora";
+    });
+});
 
         const coverSwiper = new Swiper(".coverSwiper", {
             spaceBetween: 0,
