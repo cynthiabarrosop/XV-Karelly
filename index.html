@@ -369,24 +369,25 @@
 
         const scriptURL = 'https://script.google.com/macros/s/AKfycbwsmgyyGD9KmWL_map0kbzMnMNGWC8QTpmSUZ88Fgyap0yx-FD8GwBgXu6RWvafliYd/exec';
         const form = document.getElementById('rsvpForm');
+        
         form.addEventListener('submit', e => {
             e.preventDefault();
             const btn = document.getElementById('btnEnviar');
-            btn.innerText = "Registrando...";
-            btn.disabled = true;
+            btn.innerText = "Enviando...";
             
-            fetch(scriptURL, { method: 'POST', body: new FormData(form), mode: 'no-cors' })
-                .then(() => {
-                    document.getElementById('success-msg').style.display = 'block';
-                    form.reset();
-                    btn.innerText = "Confirmar ahora";
-                    btn.disabled = false;
-                })
-                .catch(() => {
-                    alert("Hubo un error al enviar. Por favor intenta de nuevo.");
-                    btn.disabled = false;
-                    btn.innerText = "Confirmar ahora";
-                });
+            fetch(scriptURL, { 
+                method: 'POST', 
+                body: new FormData(form) 
+            })
+            .then(response => {
+                alert("¡Confirmación enviada!");
+                form.reset();
+                btn.innerText = "Confirmar ahora";
+            })
+            .catch(error => {
+                console.error('Error!', error.message);
+                alert("Hubo un error, revisa la consola.");
+            });
         });
 
         const coverSwiper = new Swiper(".coverSwiper", {
