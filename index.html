@@ -119,6 +119,16 @@
 
         .map-container-single {
             width: 100%; margin: 40px auto 0 auto; }
+
+        .mobile-only { display: block; }
+        .desktop-only { display: none; }
+        
+        /* En pantallas grandes (computadora), invertimos */
+        @media (min-width: 1024px) {
+            .mobile-only { display: none; }
+            .desktop-only { display: block; }
+        }
+                
         @media (min-width: 1024px) {
             .map-container-single { width: 75%; }
             .map-container-single iframe {
@@ -173,7 +183,7 @@
     <section>
     <div id="main-wrapper">
         <section id="portable-cover">
-            <div class="swiper coverSwiper">
+            <div class="swiper coverSwiper mobile-only">
                 <div class="swiper-wrapper">
                     <div class="swiper-slide"><img src="img/1.jpg" class="cover-img"></div>
                     <div class="swiper-slide"><img src="img/2.jpg" class="cover-img"></div>
@@ -182,6 +192,22 @@
                     <div class="swiper-slide"><img src="img/5.jpg" class="cover-img"></div>
                     <div class="swiper-slide"><img src="img/7.jpg" class="cover-img"></div>
                     <div class="swiper-slide"><img src="img/22.jpg" class="cover-img"></div>
+                </div>
+            </div>
+
+            <div class="swiper coverSwiper desktop-only">
+                <div class="swiper-wrapper">
+                    <div class="swiper-slide"><img src="img/main.jpg" class="cover-img"></div>
+                    <div class="swiper-slide"><img src="img/main2.jpg" class="cover-img"></div>
+                    <div class="swiper-slide"><img src="img/main3.jpg" class="cover-img"></div>
+                    <div class="swiper-slide"><img src="img/main4.jpg" class="cover-img"></div>
+                    <div class="swiper-slide"><img src="img/main5.jpg" class="cover-img"></div>
+                    <div class="swiper-slide"><img src="img/main6.jpg" class="cover-img"></div>
+                    <div class="swiper-slide"><img src="img/main7.jpg" class="cover-img"></div>
+                    <div class="swiper-slide"><img src="img/main8.jpg" class="cover-img"></div>
+                    <div class="swiper-slide"><img src="img/main9.jpg" class="cover-img"></div>
+                    <div class="swiper-slide"><img src="img/main10.jpg" class="cover-img"></div>
+                    <div class="swiper-slide"><img src="img/main11.jpg" class="cover-img"></div>
                 </div>
             </div>
     <div class="cover-gradient"></div>
@@ -361,18 +387,14 @@
         }
         window.addEventListener("scroll", reveal);
 
-        const coverSwiper = new Swiper(".coverSwiper", {
-            slidesPerView: 1,      // Importante: Solo una imagen
-            spaceBetween: 0,       // Sin espacio entre imágenes
-            loop: true,            // Bucle infinito
-            effect: 'fade',        // Efecto moderno de fundido
-            fadeEffect: {
-                crossFade: true
-            },
-            autoplay: {
-                delay: 3000,       // Un poco más lento para que sea elegante
-                disableOnInteraction: false,
-            },
+        const swiperInstances = document.querySelectorAll(".coverSwiper");
+        swiperInstances.forEach(el => {
+            new Swiper(el, {
+                slidesPerView: 1,
+                loop: true,
+                effect: 'fade',
+                autoplay: { delay: 3000, disableOnInteraction: false },
+            });
         });
 
         const form = document.getElementById('rsvpForm');
