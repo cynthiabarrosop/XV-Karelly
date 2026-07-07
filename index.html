@@ -367,37 +367,6 @@
         }
         window.addEventListener("scroll", reveal);
 
-        const scriptURL = "https://script.google.com/macros/s/AKfycby6DACvyFIzAuLpzeoE7cR-KkhufJ8JBWCLIFRrNtqbpyeJkdjve-krSecgnw5FvN0V/exec";
-        const form = document.getElementById('rsvpForm');
-        
-        form.addEventListener('submit', e => {
-    e.preventDefault();
-    const btn = document.getElementById('btnEnviar');
-    btn.innerText = "Enviando...";
-    btn.disabled = true;
-
-    // Usamos 'no-cors' para evitar el bloqueo de política de seguridad
-    fetch(scriptURL, { 
-        method: 'POST', 
-        mode: 'no-cors', 
-        body: new FormData(form) 
-    })
-    .then(() => {
-        // Como usamos 'no-cors', no podemos leer la respuesta, 
-        // pero sabemos que llegó el mensaje
-        document.getElementById('success-msg').style.display = 'block';
-        form.reset();
-        btn.innerText = "Confirmar ahora";
-        btn.disabled = false;
-    })
-    .catch(error => {
-        console.error('Error!', error);
-        alert("Hubo un error al conectar con Google.");
-        btn.disabled = false;
-        btn.innerText = "Confirmar ahora";
-    });
-});
-
         const coverSwiper = new Swiper(".coverSwiper", {
             spaceBetween: 0,
             centeredSlides: true,
@@ -406,6 +375,24 @@
                 disableOnInteraction: false,
             },
             loop: true,
+        });
+
+        const form = document.getElementById('rsvpForm');
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const url = "https://script.google.com/macros/s/AKfycbxomgEpYTdNpMPXETzBebHVDjicj_TEFDFLdp_Zk0a2UdQh1n7BQWdppOfio_mlyYz10Q/exec"
+            
+            fetch(url, {
+                method: 'POST',
+                body: new FormData(form)
+            })
+            .then(response => {
+                alert("¡Muchas gracias por confirmar!");
+                form.reset();
+                document.getElementById('invitados').disabled = true;
+            })
+            .catch(error => alert("Hubo un error, intenta de nuevo"));
         });
     </script>
 </body>
