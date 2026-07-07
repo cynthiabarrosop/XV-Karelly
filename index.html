@@ -333,21 +333,34 @@
             loop: true,
         });
 
-        const form = document.getElementById('rsvpForm');
+        c       const form = document.getElementById('rsvpForm');
+        const url = "https://script.google.com/macros/s/AKfycbwgOIuKD2BhThUFSKz_xlmGfhqwMBLXa9kei12f3aOlpjAPia0v1LfD1aGbFdfNXRFmlg/exec"; 
+
         form.addEventListener('submit', function(e) {
             e.preventDefault();
             
-            const url = "https://script.google.com/macros/s/AKfycbwgOIuKD2BhThUFSKz_xlmGfhqwMBLXa9kei12f3aOlpjAPia0v1LfD1aGbFdfNXRFmlg/exec"
-            
+            // Deshabilitamos el botón para evitar clics duplicados
+            const btn = document.getElementById('btnEnviar');
+            btn.disabled = true;
+            btn.innerText = "Enviando...";
+
             fetch(url, {
                 method: 'POST',
+                mode: 'no-cors',
                 body: new FormData(form)
             })
-            .then(response => {
+            .then(() => {
                 alert("¡Muchas gracias por confirmar!");
                 form.reset();
+                
+                btn.disabled = false;
+                btn.innerText = "Confirmar ahora";
             })
-            .catch(error => alert("Hubo un error, intenta de nuevo"));
+            .catch(error => {
+                alert("Hubo un error de conexión, intenta de nuevo.");
+                btn.disabled = false;
+                btn.innerText = "Confirmar ahora";
+            });
         });
     </script>
 </body>
