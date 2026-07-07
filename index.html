@@ -26,67 +26,25 @@
         .reveal { opacity: 0; transform: translateY(30px); transition: all 1s ease-out; }
         .reveal.active { opacity: 1; transform: translateY(0); }
 
-        #envelope-overlay {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: #f4f1ea; display: flex; flex-direction: column;
-            align-items: center; justify-content: center; z-index: 4000;
-            transition: transform 1.2s cubic-bezier(0.8, 0, 0.2, 1);
-        }
+        #envelope-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #f4f1ea; display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 4000; transition: transform 1.2s cubic-bezier(0.8, 0, 0.2, 1); }
 
-       #portable-cover { 
-            width: 100%; 
-            height: 100vh; 
-            position: relative; 
-            overflow: hidden; 
-        }
+       #portable-cover { width: 100%; height: 100vh; position: relative; overflow: hidden; }
 
-        .cover-img { 
-            width: 100%; 
-            height: 100%; 
-            object-fit: cover; 
-            filter: brightness(0.7); 
-        }
+        .cover-img {  width: 100%; height: 100%; object-fit: cover; filter: brightness(0.7); }
 
-        /* Contenedor del texto centrado */
-        .cover-text { 
-            position: absolute; 
-            top: 50%; 
-            left: 50%; 
-            transform: translate(-50%, -50%); 
-            text-anchor: middle; /* Asegura centrado SVG si lo usaras, pero lo controlamos con CSS */
-            color: white; 
-            width: 90%; 
-            z-index: 10; 
-            pointer-events: none; /* Permite hacer clic debajo si hubiera enlaces, aunque no es el caso aquí */
-            text-align: center;   /* Centra el texto horizontalmente */
-        } 
+        .cover-text { position: absolute; top: 50%;  left: 50%; transform: translate(-50%, -50%); text-anchor: middle; color: white;  width: 90%;  z-index: 10; pointer-events: none;  text-align: center; } 
 
-        /* --- MODIFICACIÓN AQUÍ --- */
-        .cover-text h1 { 
-            font-size: 7vh;         /* Tamaño adaptable al 7% de la altura de la pantalla */
-            line-height: 1.1;       /* Interlineado ajustado */
-            margin: 0; 
-            font-weight: 300; 
-            letter-spacing: 5px; 
-            text-transform: uppercase; /* Asegura que se vea como título */
-        } 
+        .cover-text h1 { font-size: 7vh; line-height: 1.1; margin: 0; font-weight: 300; letter-spacing: 5px; text-transform: uppercase;} 
 
         .cover-text p {
-            letter-spacing: 3px;    /* Espaciado ajustado para móvil */
-            font-size: 2.5vh;       /* Tamaño adaptable al 2.5% de la altura */
-            margin-top: 20px;       /* Margen superior para separar del título */
+            letter-spacing: 3px;    
+            font-size: 2.5vh;       
+            margin-top: 20px;  
         }
 
-        /* Ajuste para pantallas grandes (escritorio) */
         @media (min-width: 1024px) {
-            .cover-text h1 { 
-                font-size: 5rem;    /* Volvemos a unidades fijas solo en escritorio grandes */
-                letter-spacing: 10px; /* Más espaciado */
-            }
-            .cover-text p {
-                font-size: 1.5rem;  /* Volvemos a unidades fijas */
-                margin-top: 30px;
-            }
+            .cover-text h1 { font-size: 5rem; letter-spacing: 10px; }
+            .cover-text p { font-size: 1.5rem; margin-top: 30px; }
         }
 
         .coverSwiper { width: 100%; height: 100vh; }
@@ -119,11 +77,10 @@
 
         .map-container-single {
             width: 100%; margin: 40px auto 0 auto; }
-        /* Ajuste para que en navegador ocupe 3/4 partes y esté centrado */
         @media (min-width: 1024px) {
-            .map-container-single { width: 75%; /* Las 3/4 partes de la pantalla */ }
+            .map-container-single { width: 75%; }
             .map-container-single iframe {
-                height: 500px; /* Más alto para que luzca en pantallas grandes */ }
+                height: 500px; }
         }
         .map-card-single { background: white; padding: 30px; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
         .map-card-single h3 { color: var(--dorado); font-size: 14px; text-transform: uppercase; margin-bottom: 10px; }
@@ -176,7 +133,7 @@
         <section id="portable-cover">
             <div class="swiper coverSwiper">
                 <div class="swiper-wrapper">
-                    <div class="swiper-slide"><img src="img/main1.jpg" class="cover-img"></div>
+                    <div class="swiper-slide"><img src="img/main.jpg" class="cover-img"></div>
                     <div class="swiper-slide"><img src="img/main2.jpg" class="cover-img"></div>
                     <div class="swiper-slide"><img src="img/main3.jpg" class="cover-img"></div>
                     <div class="swiper-slide"><img src="img/main4.jpg" class="cover-img"></div>
@@ -223,7 +180,6 @@
                         <div class="swiper-slide"><img src="img/11.jpg"></div>
                         <div class="swiper-slide"><img src="img/12.jpg"></div>
                         <div class="swiper-slide"><img src="img/13.jpg"></div>
-                        <div class="swiper-slide"><img src="img/14.jpg"></div>
                         <div class="swiper-slide"><img src="img/15.jpg"></div>
                         <div class="swiper-slide"><img src="img/16.jpg"></div>
                         <div class="swiper-slide"><img src="img/17.jpg"></div>
@@ -299,7 +255,7 @@
             </div>
         </section>
 
-        <section id="rsvp" class="container reveal" style="background: #f9f7f2;">
+        <section id="rsvp" class="container reveal">
             <h2 class="montserrat">Confirmar Asistencia</h2>
             <p class="cormorant" style="font-size: 26px; margin-bottom: 30px;">  Será una noche mágica para mi y me encantaría que la disfrutes conmigo. ¡Espero verte ahí! </p>
             <form id="rsvpForm">
