@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mis XV - Karelly</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;600&family=Montserrat:wght@300;400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script async defer src="//assets.pinterest.com/js/pinit.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+
+    <style>
+        :root {
+            --dorado: #b8926a;
+            --crema: #fdfaf6;
+            --oscuro: #2c2c2c;
+            --vino: #8b1e1e;
+            --blanco: #ffffff;
+        }
+
+        body, html { margin: 0; padding: 0; font-family: 'Montserrat', sans-serif; background-color: var(--crema); color: var(--oscuro); scroll-behavior: smooth; overflow-x: hidden; }
+        .cormorant { font-family: 'Cormorant Garamond', serif; }
+        .container { padding: 80px 20px; text-align: center; max-width: 1000px; margin: 0 auto; }
+        
+        .reveal { opacity: 0; transform: translateY(30px); transition: all 1s ease-out; }
+        .reveal.active { opacity: 1; transform: translateY(0); }
+
+        #envelope-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: #f4f1ea; display: flex; flex-direction: column;
+            align-items: center; justify-content: center; z-index: 4000;
+            transition: transform 1.2s cubic-bezier(0.8, 0, 0.2, 1);
+        }
+
+       #portable-cover { 
+            width: 100%; 
+            height: 100vh; 
+            position: relative; 
+            overflow: hidden; 
+        }
+
+        .cover-img { 
+            width: 100%; 
+            height: 100%; 
+            object-fit: cover; 
+            filter: brightness(0.7); 
+        }
+
+        /* Contenedor del texto centrado */
+        .cover-text { 
+            position: absolute; 
+            top: 50%; 
+            left: 50%; 
+            transform: translate(-50%, -50%); 
+            text-anchor: middle; /* Asegura centrado SVG si lo usaras, pero lo controlamos con CSS */
+            color: white; 
+            width: 90%; 
+            z-index: 10; 
+            pointer-events: none; /* Permite hacer clic debajo si hubiera enlaces, aunque no es el caso aquí */
+            text-align: center;   /* Centra el texto horizontalmente */
+        } 
+
+        /* --- MODIFICACIÓN AQUÍ --- */
+        .cover-text h1 { 
+            font-size: 7vh;         /* Tamaño adaptable al 7% de la altura de la pantalla */
+            line-height: 1.1;       /* Interlineado ajustado */
+            margin: 0; 
+            font-weight: 300; 
+            letter-spacing: 5px; 
+            text-transform: uppercase; /* Asegura que se vea como título */
+        } 
+
+        .cover-text p {
+            letter-spacing: 3px;    /* Espaciado ajustado para móvil */
+            font-size: 2.5vh;       /* Tamaño adaptable al 2.5% de la altura */
+            margin-top: 20px;       /* Margen superior para separar del título */
+        }
+
+        /* Ajuste para pantallas grandes (escritorio) */
+        @media (min-width: 1024px) {
+            .cover-text h1 { 
+                font-size: 5rem;    /* Volvemos a unidades fijas solo en escritorio grandes */
+                letter-spacing: 10px; /* Más espaciado */
+            }
+            .cover-text p {
+                font-size: 1.5rem;  /* Volvemos a unidades fijas */
+                margin-top: 30px;
+            }
+        }
+
+        .coverSwiper { width: 100%; height: 100vh; }
+        .coverSwiper .swiper-slide { position: relative; }
+        .cover-text { z-index: 10; pointer-events: none; }
+
+        .timer-container { display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; max-width: 500px; margin: 40px auto; }
+        .timer-box { background: white; padding: 20px 10px; border-radius: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
+        .timer-box span { display: block; font-size: 28px; font-weight: bold; color: var(--dorado); }
+        .timer-box label { font-size: 10px; text-transform: uppercase; letter-spacing: 1px; }
+
+        .mySwiper { width: 300px; height: 420px; margin: 20px auto; overflow: visible !important; }
+        .swiper-slide { background: white; padding: 10px 10px 45px 10px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); border-radius: 2px; }
+        .swiper-slide img { width: 100%; height: 100%; object-fit: cover; border: 1px solid #eee; }
+        .swiper-button-next, .swiper-button-prev { color: var(--dorado); display: none; }
+        @media (min-width: 1024px) {
+            .swiper-button-next, .swiper-button-prev { display: flex; }
+            .mySwiper { width: 400px; height: 520px; }
+        }
+
+        #programa { position: relative; }
+        .timeline-container { position: relative; max-width: 800px; margin: 0 auto; padding: 40px 0; }
+        .timeline-line { position: absolute; left: 50%; top: 0; bottom: 0; width: 2px; background: #e0e0e0; transform: translateX(-50%); z-index: 1; }
+        .timeline-item { width: 50%; margin-bottom: 40px; position: relative; z-index: 2;   }
+        .timeline-item.left { left: 0; text-align: right; padding-right: 45px; box-sizing: border-box; }
+        .timeline-item.right { left: 50%; text-align: left; padding-left: 45px; box-sizing: border-box; }
+        .timeline-icon { position: absolute; top: 0; width: 40px; height: 40px; background: #b8926a;  color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; z-index: 10; }
+        .left .timeline-icon { right: -20px; }        
+        .right .timeline-icon { left: -20px; }
+
+        .map-container-single {
+            width: 100%; margin: 40px auto 0 auto; }
+        /* Ajuste para que en navegador ocupe 3/4 partes y esté centrado */
+        @media (min-width: 1024px) {
+            .map-container-single { width: 75%; /* Las 3/4 partes de la pantalla */ }
+            .map-container-single iframe {
+                height: 500px; /* Más alto para que luzca en pantallas grandes */ }
+        }
+        .map-card-single { background: white; padding: 30px; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
+        .map-card-single h3 { color: var(--dorado); font-size: 14px; text-transform: uppercase; margin-bottom: 10px; }
+        .card-estilo-comun {
+            background: white; 
+            padding: 30px; 
+            border-radius: 20px; 
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05); 
+            max-width: 800px; /* Define el ancho máximo deseado */
+            margin: 0 auto;   /* Centrado automático */
+        }
+        .gift-buttons-container { display: flex; gap: 15px; justify-content: center; flex-wrap: wrap; align-items: center; max-width: 900px; margin: 0 auto; }
+        @media (min-width: 1024px) {
+            .gift-buttons-container .btn-gold { flex: 1; max-width: 250px; padding: 15px 10px; justify-content: center; }   }
+        .modal { display: none; position: fixed; z-index: 9999 !important; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.7); }
+        .modal-content { background-color: #fdfaf6; margin: 10% auto; padding: 30px; border-radius: 15px; width: 85%; max-width: 400px; text-align: center; position: relative; box-shadow: 0 5px 25px rgba(0,0,0,0.5); }
+        .close-modal { position: absolute; top: 15px; right: 20px; font-size: 35px; font-weight: bold; cursor: pointer; color: #b8926a; line-height: 1; }
+        .btn-copy { background-color: #b8926a; color: white; border: none; padding: 10px; border-radius: 5px; margin-top: 15px; cursor: pointer; width: 100%; }
+        .close-modal:hover { color: var(--vino); }
+        .bank-details { text-align: left; margin-top: 20px; background: #fff; padding: 15px; border-radius: 8px; border: 1px dashed #b8926a; }
+
+        .image-wrapper:hover img {
+            transform: scale(1.05);
+        }
+        #rsvpForm { max-width: 450px; margin: 0 auto; display: flex; flex-direction: column; gap: 15px; }
+        #rsvpForm input, #rsvpForm select, #rsvpForm textarea {
+            width: 100%; padding: 15px; border: 1px solid #ddd; border-radius: 8px;
+            font-family: 'Montserrat'; font-size: 14px; box-sizing: border-box; }
+        #rsvpForm textarea { height: 100px; resize: none; }
+        .btn-gold { background: var(--dorado); color: white; padding: 18px; border: none; border-radius: 8px; cursor: pointer; text-transform: uppercase; font-weight: bold; letter-spacing: 2px; transition: 0.3s; width: 100%; }
+        footer { background: #1a1a1a; color: rgba(255,255,255,0.5); padding: 40px 20px; text-align: center; }
+        footer p { font-size: 10px; letter-spacing: 2px; margin: 0; text-transform: uppercase; }
+    </style>
+</head>
+<body>
+
+    <div id="envelope-overlay">
+        <h2 class="cormorant">¡Bienvenidos!</h2>
+        <div onclick="abrirSobre()" style="cursor:pointer; transition: transform 0.3s;" onmouseover="this.style.transform='scale(1.1)'" onmouseout="this.style.transform='scale(1)'">
+            <svg width="100" height="100" viewBox="0 0 100 100">
+                <circle cx="50" cy="50" r="45" fill="#8b1e1e" />
+                <text x="50" y="62" text-anchor="middle" fill="white" font-family="serif" font-size="22">Mis XV</text>
+            </svg>
+        </div>
+        <p class="montserrat" style="font-size: 10px; margin-top: 20px; letter-spacing: 3px;">TOCA EL SELLO</p>
+    </div>
+
+    <section>
+    <div id="main-wrapper">
+        <section id="portable-cover">
+            <div class="swiper coverSwiper">
+                <div class="swiper-wrapper">
+                    <div class="swiper-slide"><img src="img/main1.jpg" class="cover-img"></div>
+                    <div class="swiper-slide"><img src="img/main2.jpg" class="cover-img"></div>
+                    <div class="swiper-slide"><img src="img/main3.jpg" class="cover-img"></div>
+                    <div class="swiper-slide"><img src="img/main4.jpg" class="cover-img"></div>
+                    <div class="swiper-slide"><img src="img/main5.jpg" class="cover-img"></div>
+                    <div class="swiper-slide"><img src="img/main6.jpg" class="cover-img"></div>
+                    <div class="swiper-slide"><img src="img/main7.jpg" class="cover-img"></div>
+                    <div class="swiper-slide"><img src="img/main8.jpg" class="cover-img"></div>
+                    <div class="swiper-slide"><img src="img/main9.jpg" class="cover-img"></div>
+                    <div class="swiper-slide"><img src="img/main10.jpg" class="cover-img"></div>
+                    <div class="swiper-slide"><img src="img/main11.jpg" class="cover-img"></div>
+                </div>
+            </div>
+    
+    <div class="cover-text">
+        <h1 class="cormorant">XV AÑOS KARELLY</h1>
+        <p class="montserrat">01 DE AGOSTO DEL 2026</p>
+    </div>
+</section>
+
+        <section id="hero" class="container reveal">
+            <h2 class="cormorant" style="font-size: 32px;">¡Faltan solo!</h2>
+            <div class="timer-container">
+                <div class="timer-box"><span id="months">0</span><label>Meses</label></div>
+                <div class="timer-box"><span id="days">0</span><label>Días</label></div>
+                <div class="timer-box"><span id="hours">0</span><label>Horas</label></div>
+                <div class="timer-box"><span id="minutes">0</span><label>Min</label></div>
+            </div>
+        </section>
+
+        <section id="galeria-y-padres" class="container reveal" style="display: flex; align-items: center; justify-content: center; gap: 140px; flex-wrap: wrap;">
+            <div style="flex: 0 0 350px;">
+                <div class="swiper mySwiper">
+                    <div class="swiper-wrapper">
+                        <div class="swiper-slide"><img src="img/1.jpg"></div>
+                        <div class="swiper-slide"><img src="img/2.jpg"></div>
+                        <div class="swiper-slide"><img src="img/3.jpg"></div>
+                        <div class="swiper-slide"><img src="img/4.jpg"></div>
+                        <div class="swiper-slide"><img src="img/5.jpg"></div>
+                        <div class="swiper-slide"><img src="img/6.jpg"></div>
+                        <div class="swiper-slide"><img src="img/7.jpg"></div>
+                        <div class="swiper-slide"><img src="img/8.jpg"></div>
+                        <div class="swiper-slide"><img src="img/9.jpg"></div>
+                        <div class="swiper-slide"><img src="img/10.jpg"></div>
+                        <div class="swiper-slide"><img src="img/11.jpg"></div>
+                        <div class="swiper-slide"><img src="img/12.jpg"></div>
+                        <div class="swiper-slide"><img src="img/13.jpg"></div>
+                        <div class="swiper-slide"><img src="img/14.jpg"></div>
+                        <div class="swiper-slide"><img src="img/15.jpg"></div>
+                        <div class="swiper-slide"><img src="img/16.jpg"></div>
+                        <div class="swiper-slide"><img src="img/17.jpg"></div>
+                        <div class="swiper-slide"><img src="img/18.jpg"></div>
+                        <div class="swiper-slide"><img src="img/19.jpg"></div>
+                        <div class="swiper-slide"><img src="img/20.jpg"></div>
+                        <div class="swiper-slide"><img src="img/21.jpg"></div>
+                        <div class="swiper-slide"><img src="img/22.jpg"></div>
+                        <div class="swiper-slide"><img src="img/23.jpg"></div>
+                        <div class="swiper-slide"><img src="img/24.jpg"></div>
+                    </div>
+                    <div class="swiper-button-next"></div>
+                    <div class="swiper-button-prev"></div>
+                </div>
+            </div>
+
+          <div style="flex: 1; min-width: 300px; text-align: left; padding-left: 20px; border-left: 2px solid #e0d5c8;">
+            <h2 class="cormorant" style="font-size: 28px; color: #b8926a; line-height: 1.4; margin: 0;">Hay momentos inolvidables que se atesoran en el corazón para siempre, por esa razón quiero que compartas conmigo este día tan especial. </h2>
+            <p class="cormorant" style="font-size: 28px; margin-bottom: 20px;">Gracias a mis padres:</p>
+            <p class="cormorant" style="font-size: 28px;  margin: 0;">
+                Janelly Rodriguez Villalobos y Juan Carlos Jaime Cuellar
+            </p>
+        </div>
+        </section>
+
+        <section id="ubicacion" class="container reveal">            
+            <div class="card-estilo-comun">
+                <div class="map-card-single">
+                    <h3 class="montserrat"> Ubicación:</h3>
+                    <p class="cormorant" style="font-size: 26px; margin-bottom: 20px;">La Presita 244, Blvd. Arandas, 36501 Irapuato, Gto.</p>
+                    
+                    <iframe 
+                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3731.3394595596515!2d-101.3905803!3d20.7370309!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x842b8131b565c3b5%3A0x8560d9ae6e151164!2sQuinta%20El%20Palmar%20Sal%C3%B3n%20de%20Eventos!5e0!3m2!1ses!2smx!4v1783394514723!5m2!1ses!2smx" 
+                        style="width: 100%; border-radius: 10px; border:0;" 
+                        allowfullscreen="" 
+                        loading="lazy">
+                    </iframe>
+                    
+                    <a href="https://maps.app.goo.gl/vA8T6v2z7K8m2K8m6" target="_blank" class="btn-gold" style="display: inline-block; margin-top: 25px; width: auto; padding: 12px 30px; text-decoration: none; font-size: 13px;">
+                        <i class="fas fa-map-marker-alt"></i> ABRIR EN GOOGLE MAPS
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <section id="mesa-regalos" class="container reveal">
+            <h3 class="montserrat" >Mesa de Regalos</h3>
+            <p class="cormorant" style="margin-bottom: 30px; font-size: 26px;">Tu presencia es nuestro mejor regalo, pero si deseas tener un detalle:</p>
+            <div class="gift-buttons-container">
+                <a href="https://www.sears.com.mx/Mesa-de-Regalos/236984/invitacion" target="_blank" class="btn-gold" style="text-decoration: none; display: inline-flex; align-items: center; gap: 8px;">
+                    <i class="fas fa-gift"></i> SEARS
+                </a>
+                <a href="https://mesaderegalos.liverpool.com.mx/milistaderegalos/60006503" target="_blank" class="btn-gold" style="text-decoration: none; display: inline-flex; align-items: center; gap: 8px;">
+                    <i class="fas fa-shopping-bag"></i> LIVERPOOL
+                </a> 
+            </div>
+        </section>
+
+        <section id="vestimenta" class="container reveal">
+            <div class="card-estilo-comun">
+                <h3 class="montserrat" style="margin-bottom: 20px;">Dress Code</h3>
+                <p class="cormorant" style="font-size: 26px; line-height: 1.6; margin-bottom: 25px;">
+                    <b style="color: var(--dorado);">Hombres:</b> Traje negro, con corbata negra.<br>
+                    <b style="color: var(--dorado);">Mujeres:</b> Tonos crema, champagne, tan, taupe o gold.
+                </p>
+                <p class="cormorant" style="font-size: 20px; color: #666; margin-bottom: 30px; font-style: italic;">
+                    Puedes jugar con detalles como brillos, plumas o telas satinadas. <br> Queremos que luzcan espectaculares.
+                </p>
+
+                <div style="max-width: 500px; margin: 0 auto; overflow: hidden; border-radius: 15px; box-shadow: 0 15px 35px rgba(0,0,0,0.15);">
+                    <img src="img/dresscode.jpg" alt="Dress Code Inspiración" style="width: 100%; height: auto; display: block; transition: transform 0.5s ease;">
+                </div>
+            </div>
+        </section>
+
+        <section id="rsvp" class="container reveal" style="background: #f9f7f2;">
+            <h2 class="montserrat">Confirmar Asistencia</h2>
+            <p class="cormorant" style="font-size: 26px; margin-bottom: 30px;">  Será una noche mágica para mi y me encantaría que la disfrutes conmigo. ¡Espero verte ahí! </p>
+            <form id="rsvpForm">
+                <input type="text" name="nombre" placeholder="Nombre completo" required>
+                <select name="asistencia" required>
+                    <option value="" disabled selected>¿Asistirás?</option>
+                    <option value="Si">Sí, ¡con mucho gusto!</option>
+                    <option value="No">Lo siento, no puedo</option>
+                </select>
+                <textarea name="mensaje" placeholder="¿Alguna alergia o mensaje para nosotros?"></textarea>
+                <button type="submit" id="btnEnviar" class="btn-gold">Confirmar ahora</button>
+            </form>
+            <p id="success-msg" style="display:none; color: #4a7c44; font-weight: bold; margin-top: 20px;">
+                <i class="fas fa-check-circle"></i> ¡Confirmación enviada con éxito!
+            </p>
+        </section>
+
+        <footer>
+            <p>© Todos los derechos reservados 2026</p>
+            <p style="margin-top: 10px; font-size: 8px; opacity: 0.5;">CAPONNI
+            </p>
+        </footer>
+
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <script>
+        function abrirSobre() {
+            document.getElementById('envelope-overlay').style.transform = "translateY(-100%)";
+            setTimeout(reveal, 500);
+        }
+
+        const swiper = new Swiper(".mySwiper", {
+            effect: "cards",
+            grabCursor: true,
+            navigation: { nextEl: ".swiper-button-next", prevEl: ".swiper-button-prev" },
+            mousewheel: { invert: false },
+        });
+
+        const targetDate = new Date("August 01, 2026 15:00:00").getTime();
+        function updateTimer() {
+            const now = new Date().getTime();
+            const diff = targetDate - now;
+            if (diff <= 0) return;
+
+            const msPorMinuto = 1000 * 60;
+            const msPorHora = msPorMinuto * 60;
+            const msPorDia = msPorHora * 24;
+            const msPorMes = msPorDia * 30.44; 
+
+            document.getElementById('months').innerText = Math.floor(diff / msPorMes);
+            document.getElementById('days').innerText = Math.floor((diff % msPorMes) / msPorDia);
+            document.getElementById('hours').innerText = Math.floor((diff % msPorDia) / msPorHora);
+            document.getElementById('minutes').innerText = Math.floor((diff % msPorHora) / msPorMinuto);
+        }
+        setInterval(updateTimer, 1000);
+        updateTimer();
+
+        function reveal() {
+            const reveals = document.querySelectorAll(".reveal");
+            reveals.forEach(el => {
+                const rect = el.getBoundingClientRect();
+                if (rect.top < window.innerHeight - 50) el.classList.add("active");
+            });
+        }
+        window.addEventListener("scroll", reveal);
+
+        const scriptURL = 'https://script.google.com/macros/s/AKfycbxgnx_Iw_yhMFcZ-QYvPa_8dejCzLmlpbxnV2GBMU4gvwYnoJJ7zrZPWHp-yKLw3x3j/exec';
+        const form = document.getElementById('rsvpForm');
+        form.addEventListener('submit', e => {
+            e.preventDefault();
+            const btn = document.getElementById('btnEnviar');
+            btn.innerText = "Registrando...";
+            btn.disabled = true;
+            
+            fetch(scriptURL, { method: 'POST', body: new FormData(form), mode: 'no-cors' })
+                .then(() => {
+                    document.getElementById('success-msg').style.display = 'block';
+                    form.reset();
+                    btn.innerText = "Confirmar ahora";
+                    btn.disabled = false;
+                })
+                .catch(() => {
+                    alert("Hubo un error al enviar. Por favor intenta de nuevo.");
+                    btn.disabled = false;
+                    btn.innerText = "Confirmar ahora";
+                });
+        });
+
+        const coverSwiper = new Swiper(".coverSwiper", {
+            spaceBetween: 0,
+            centeredSlides: true,
+            autoplay: {
+                delay: 1500,
+                disableOnInteraction: false,
+            },
+            loop: true,
+        });
+    </script>
+</body>
+</html>
