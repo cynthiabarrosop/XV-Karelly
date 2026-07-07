@@ -338,7 +338,6 @@
             e.preventDefault();
             
             const url = "https://script.google.com/macros/s/AKfycbwgOIuKD2BhThUFSKz_xlmGfhqwMBLXa9kei12f3aOlpjAPia0v1LfD1aGbFdfNXRFmlg/exec"
-            
             fetch(url, {
                 method: 'POST',
                 body: new FormData(form)
@@ -347,7 +346,7 @@
                 alert("¡Muchas gracias por confirmar!");
                 form.reset();
                 document.getElementById('invitados').disabled = true;
-            })
+        });
     </script>
 </body>
 </html>
