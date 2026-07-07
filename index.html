@@ -27,15 +27,7 @@
         .reveal.active { opacity: 1; transform: translateY(0); }
 
         #envelope-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #f4f1ea; display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 4000; transition: transform 1.2s cubic-bezier(0.8, 0, 0.2, 1); }
-
-       #portable-cover { 
-            width: 100%; 
-            height: 100vh; /* Ocupa toda la pantalla */
-            position: relative; 
-            overflow: hidden; 
-        }
         
-        /* El degradado elegante */
         .cover-gradient {
             position: absolute;
             bottom: 0;
@@ -45,14 +37,31 @@
             background: linear-gradient(to bottom, rgba(253, 250, 246, 0) 0%, #fdfaf6 100%);
             z-index: 5;
         }
+
+        #portable-cover {
+            width: 100%;
+            height: 100vh;
+            position: relative;
+            overflow: hidden;
+            margin: 0;
+            padding: 0;
+            border-radius: 0 !important; /* Asegura que no haya esquinas redondeadas */
+        }
         
-        /* Ajuste de la imagen */
-        .cover-img { 
-            width: 100%; 
-            height: 100%; 
-            object-fit: cover; /* Mantiene la proporción sin deformar */
+        /* Asegura que la imagen dentro del slider no tenga bordes */
+        .cover-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
             object-position: center;
-            filter: brightness(0.85); /* Un poco más claro para que se vea bien */
+            border-radius: 0 !important; /* Quita cualquier redondeo en la foto */
+            display: block; /* Elimina espacios en blanco debajo de la imagen */
+        }
+        
+        /* Limpia el slider para evitar sombras o bordes invisibles */
+        .swiper-slide {
+            border-radius: 0 !important;
+            overflow: hidden;
         }
         
         /* Asegurar que el texto esté encima */
@@ -91,7 +100,6 @@
         .timer-box label { font-size: 10px; text-transform: uppercase; letter-spacing: 1px; }
 
         .mySwiper { width: 300px; height: 420px; margin: 20px auto; overflow: visible !important; }
-        .swiper-slide { background: white; padding: 10px 10px 45px 10px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); border-radius: 2px; }
         .swiper-slide img { width: 100%; height: 100%; object-fit: cover; border: 1px solid #eee; }
         .swiper-button-next, .swiper-button-prev { color: var(--dorado); display: none; }
         @media (min-width: 1024px) {
