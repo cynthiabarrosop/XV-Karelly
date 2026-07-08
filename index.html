@@ -45,26 +45,23 @@
             overflow: hidden;
             margin: 0;
             padding: 0;
-            border-radius: 0 !important; /* Asegura que no haya esquinas redondeadas */
+            border-radius: 0 !important;
         }
         
-        /* Asegura que la imagen dentro del slider no tenga bordes */
         .cover-img {
             width: 100%;
             height: 100%;
             object-fit: cover;
             object-position: center;
-            border-radius: 0 !important; /* Quita cualquier redondeo en la foto */
-            display: block; /* Elimina espacios en blanco debajo de la imagen */
+            border-radius: 0 !important;
+            display: block; 
         }
         
-        /* Limpia el slider para evitar sombras o bordes invisibles */
         .swiper-slide {
             border-radius: 0 !important;
             overflow: hidden;
         }
-        
-        /* Asegurar que el texto esté encima */
+
         .cover-text { 
             z-index: 10; 
         }
@@ -177,10 +174,42 @@
         .btn-gold { background: var(--dorado); color: white; padding: 18px; border: none; border-radius: 8px; cursor: pointer; text-transform: uppercase; font-weight: bold; letter-spacing: 2px; transition: 0.3s; width: 100%; }
         footer { background: #1a1a1a; color: rgba(255,255,255,0.5); padding: 40px 20px; text-align: center; }
         footer p { font-size: 10px; letter-spacing: 2px; margin: 0; text-transform: uppercase; }
+
+        #audio-container {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 5000;
+        }
+
+        #btn-musica {
+            background: var(--dorado);
+            border: none;
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.3s;
+        }
+
+        #btn-musica:hover { transform: scale(1.1); }
     </style>
 </head>
 <body>
 
+    <div id="audio-container">
+        <audio id="musica" loop>
+            <source src="musica.mp3" type="audio/mpeg">
+        </audio>
+        <button id="btn-musica" onclick="toggleMusica()">
+            <i id="icono-musica" class="fas fa-music"></i>
+        </button>
+    </div>
     <div id="envelope-overlay">
         <h2 class="cormorant">¡Bienvenidos!</h2>
         <div onclick="abrirSobre()" style="cursor:pointer; transition: transform 0.3s;" onmouseover="this.style.transform='scale(1.1)'" onmouseout="this.style.transform='scale(1)'">
@@ -360,9 +389,28 @@
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
     <script>
         function abrirSobre() {
-            document.getElementById('envelope-overlay').style.transform = "translateY(-100%)";
-            setTimeout(reveal, 500);
+        document.getElementById('envelope-overlay').style.transform = "translateY(-100%)";
+        setTimeout(reveal, 500);
+
+        // NUEVO: Iniciar música
+        const audio = document.getElementById('musica');
+        const btn = document.getElementById('btn-musica');
+        audio.play();
+        document.getElementById('icono-musica').className = "fas fa-pause";
+    }
+
+    // Función para pausar/reproducir manualmente
+    function toggleMusica() {
+        const audio = document.getElementById('musica');
+        const icono = document.getElementById('icono-musica');
+        if (audio.paused) {
+            audio.play();
+            icono.className = "fas fa-pause";
+        } else {
+            audio.pause();
+            icono.className = "fas fa-music";
         }
+    }
 
         const swiper = new Swiper(".mySwiper", {
             effect: "cards",
