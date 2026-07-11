@@ -12,7 +12,7 @@
 
     <style>
         :root {
-            --dorado: #b8926a;
+            --dorado: #d16494;
             --crema: #fdfaf6;
             --oscuro: #2c2c2c;
             --vino: #8b1e1e;
@@ -22,182 +22,74 @@
         body, html { margin: 0; padding: 0; font-family: 'Montserrat', sans-serif; background-color: var(--crema); color: var(--oscuro); scroll-behavior: smooth; overflow-x: hidden; }
         .cormorant { font-family: 'Cormorant Garamond', serif; }
         .container { padding: 80px 20px; text-align: center; max-width: 1000px; margin: 0 auto; }
-        
         .reveal { opacity: 0; transform: translateY(30px); transition: all 1s ease-out; }
         .reveal.active { opacity: 1; transform: translateY(0); }
-
         #envelope-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #f4f1ea; display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 4000; transition: transform 1.2s cubic-bezier(0.8, 0, 0.2, 1); }
-        
-        .cover-gradient {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            height: 30%;
-            background: linear-gradient(to bottom, rgba(253, 250, 246, 0) 0%, #fdfaf6 100%);
-            z-index: 5;
-        }
-
-        #portable-cover {
-            width: 100%;
-            height: 100vh;
-            position: relative;
-            overflow: hidden;
-            margin: 0;
-            padding: 0;
-            border-radius: 0 !important;
-        }
-        
-        .cover-img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            object-position: center;
-            border-radius: 0 !important;
-            display: block; 
-        }
-        
-        .swiper-slide {
-            border-radius: 0 !important;
-            overflow: hidden;
-        }
-
-        .cover-text { 
-            z-index: 10; 
-        }
-        .cover-text h1 {
-            font-size: 7vh;
-            line-height: 1.1;
-            margin: 0;
-            font-weight: 600;
-            color: #fdfaf6;
-            letter-spacing: 5px;
-            text-transform: uppercase;
-            text-shadow: 0 2px 8px rgba(0,0,0,0.6);
-        }
-        
-        .cover-text p {
-            letter-spacing: 3px;
-            font-size: 2.5vh;
-            margin-top: 20px;
-            color: #fdfaf6;
-            font-weight: 600;
-            text-shadow: 0 2px 6px rgba(0,0,0,0.7);
-        }
-
-        @media (min-width: 1024px) {
-            .cover-text h1 { font-size: 5rem; letter-spacing: 10px; }
-            .cover-text p { font-size: 1.5rem; margin-top: 30px; }
-        }
-
-       .coverSwiper { width: 100%; height: 100vh; position: relative; }
-        .cover-text { 
-            position: absolute; /* Esto es clave para que flote sobre el slider */
-            top: 50%;           /* Centrado vertical */
-            left: 50%;          /* Centrado horizontal */
-            transform: translate(-50%, -50%); /* Ajuste fino de centrado */
-            z-index: 100;       /* Asegura que esté por encima de todo */
-            text-align: center;
-            color: white;       /* Asegúrate que el color sea visible sobre tu foto */
-            width: 100%;
-            pointer-events: auto; /* IMPORTANTE: Esto hará que vuelva a aparecer */
-        }
-
+        .cover-gradient { position: absolute; bottom: 0; left: 0; width: 100%; height: 30%; background: linear-gradient(to bottom, rgba(253, 250, 246, 0) 0%, #fdfaf6 100%); z-index: 5; }
+        #portable-cover { width: 100%; height: 100vh; position: relative; overflow: hidden; margin: 0; padding: 0;  border-radius: 0 !important; }
+        .cover-img { width: 100%; height: 100%; object-fit: cover; object-position: center; border-radius: 0 !important; display: block;  }
+        .swiper-slide {  border-radius: 0 !important; overflow: hidden;  }
+        .cover-text {  z-index: 10;  }
+        .cover-text h1 {  font-size: 7vh; line-height: 1.1; margin: 0; font-weight: 600; color: #fdfaf6; letter-spacing: 5px; text-transform: uppercase; text-shadow: 0 2px 8px rgba(0,0,0,0.6);  } 
+        .cover-text p {  letter-spacing: 3px;  font-size: 2.5vh;  margin-top: 20px; color: #fdfaf6; font-weight: 600;text-shadow: 0 2px 6px rgba(0,0,0,0.7); }
+        .coverSwiper { width: 100%; height: 100vh; position: relative; }
+        .cover-text {  position: absolute;  top: 50%; left: 50%;  transform: translate(-50%, -50%);  z-index: 100;  text-align: center; color: white; width: 100%; pointer-events: auto;  }
         .timer-container { display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; max-width: 500px; margin: 40px auto; }
         .timer-box { background: white; padding: 20px 10px; border-radius: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
         .timer-box span { display: block; font-size: 28px; font-weight: bold; color: var(--dorado); }
         .timer-box label { font-size: 10px; text-transform: uppercase; letter-spacing: 1px; }
-
         .mySwiper { width: 300px; height: 420px; margin: 20px auto; overflow: visible !important; }
         .swiper-slide img { width: 100%; height: 100%; object-fit: cover; border: 1px solid #eee; }
         .swiper-button-next, .swiper-button-prev { color: var(--dorado); display: none; }
-        @media (min-width: 1024px) {
-            .swiper-button-next, .swiper-button-prev { display: flex; }
-            .mySwiper { width: 400px; height: 520px; }
-        }
-
+        .galeria-fotos { display: flex; flex-direction: column; align-items: center; width: 100%;  margin: 20px 0;  }
+        .galeria-fotos img { width: 90%; max-width: 600px; height: auto; margin: 15px 0; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
+        .card { background-color: #fbf8f5;  border: 2px solid var(--dorado);  border-radius: 30px; padding: 40px; width: 60%; text-align: center;  color: var(--dorado); margin: 50px auto; outline: 2px solid var(--dorado); outline-offset: -10px; }
+        .icon { font-size: 50px; margin-bottom: 10px;  }
+        .handle {  font-size: 24px; font-weight: bold; }
         #programa { position: relative; }
         .timeline-container { position: relative; max-width: 800px; margin: 0 auto; padding: 40px 0; }
         .timeline-line { position: absolute; left: 50%; top: 0; bottom: 0; width: 2px; background: #e0e0e0; transform: translateX(-50%); z-index: 1; }
         .timeline-item { width: 50%; margin-bottom: 40px; position: relative; z-index: 2;   }
         .timeline-item.left { left: 0; text-align: right; padding-right: 45px; box-sizing: border-box; }
         .timeline-item.right { left: 50%; text-align: left; padding-left: 45px; box-sizing: border-box; }
-        .timeline-icon { position: absolute; top: 0; width: 40px; height: 40px; background: #b8926a;  color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; z-index: 10; }
+        .timeline-icon { position: absolute; top: 0; width: 40px; height: 40px; background: var(--dorado);  color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; z-index: 10; }
         .left .timeline-icon { right: -20px; }        
         .right .timeline-icon { left: -20px; }
-
-        .map-container-single {
-            width: 100%; margin: 40px auto 0 auto; }
-
+        .map-container-single { width: 100%; margin: 40px auto 0 auto; }
         .mobile-only { display: block; }
         .desktop-only { display: none; }
-        
-        /* En pantallas grandes (computadora), invertimos */
-        @media (min-width: 1024px) {
-            .mobile-only { display: none; }
-            .desktop-only { display: block; }
-        }
-                
-        @media (min-width: 1024px) {
-            .map-container-single { width: 75%; }
-            .map-container-single iframe {
-                height: 500px; }
-        }
         .map-card-single { background: white; padding: 30px; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
         .map-card-single h3 { color: var(--dorado); font-size: 14px; text-transform: uppercase; margin-bottom: 10px; }
-        .card-estilo-comun {
-            background: white; 
-            padding: 30px; 
-            border-radius: 20px; 
-            box-shadow: 0 10px 30px rgba(0,0,0,0.05); 
-            max-width: 800px; /* Define el ancho máximo deseado */
-            margin: 0 auto;   /* Centrado automático */
-        }
+        .card-estilo-comun { background: white; padding: 30px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); max-width: 800px; margin: 0 auto;   }
         .gift-buttons-container { display: flex; gap: 15px; justify-content: center; flex-wrap: wrap; align-items: center; max-width: 900px; margin: 0 auto; }
-        @media (min-width: 1024px) {
-            .gift-buttons-container .btn-gold { flex: 1; max-width: 250px; padding: 15px 10px; justify-content: center; }   }
-        .modal { display: none; position: fixed; z-index: 9999 !important; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.7); }
-        .modal-content { background-color: #fdfaf6; margin: 10% auto; padding: 30px; border-radius: 15px; width: 85%; max-width: 400px; text-align: center; position: relative; box-shadow: 0 5px 25px rgba(0,0,0,0.5); }
-        .close-modal { position: absolute; top: 15px; right: 20px; font-size: 35px; font-weight: bold; cursor: pointer; color: #b8926a; line-height: 1; }
-        .btn-copy { background-color: #b8926a; color: white; border: none; padding: 10px; border-radius: 5px; margin-top: 15px; cursor: pointer; width: 100%; }
-        .close-modal:hover { color: var(--vino); }
-        .bank-details { text-align: left; margin-top: 20px; background: #fff; padding: 15px; border-radius: 8px; border: 1px dashed #b8926a; }
-
-        .image-wrapper:hover img {
-            transform: scale(1.05);
-        }
         #rsvpForm { max-width: 450px; margin: 0 auto; display: flex; flex-direction: column; gap: 15px; }
-        #rsvpForm input, #rsvpForm select, #rsvpForm textarea {
-            width: 100%; padding: 15px; border: 1px solid #ddd; border-radius: 8px;
-            font-family: 'Montserrat'; font-size: 14px; box-sizing: border-box; }
+        #rsvpForm input, #rsvpForm select, #rsvpForm textarea { width: 100%; padding: 15px; border: 1px solid #ddd; border-radius: 8px; font-family: 'Montserrat'; font-size: 14px; box-sizing: border-box; }
         #rsvpForm textarea { height: 100px; resize: none; }
         .btn-gold { background: var(--dorado); color: white; padding: 18px; border: none; border-radius: 8px; cursor: pointer; text-transform: uppercase; font-weight: bold; letter-spacing: 2px; transition: 0.3s; width: 100%; }
         footer { background: #1a1a1a; color: rgba(255,255,255,0.5); padding: 40px 20px; text-align: center; }
         footer p { font-size: 10px; letter-spacing: 2px; margin: 0; text-transform: uppercase; }
-
-        #audio-container {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            z-index: 5000;
-        }
-
-        #btn-musica {
-            background: var(--dorado);
-            border: none;
-            color: white;
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            cursor: pointer;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: transform 0.3s;
-        }
-
+        #audio-container { position: fixed; top: 20px; right: 20px; z-index: 5000; }
+        #btn-musica { background: var(--dorado); border: none; color: white; width: 40px; height: 40px; border-radius: 50%; cursor: pointer; box-shadow: 0 4px 10px rgba(0,0,0,0.2); display: flex; align-items: center; justify-content: center; transition: transform 0.3s; }
         #btn-musica:hover { transform: scale(1.1); }
+
+        @media (min-width: 1024px) {
+            .mobile-only { display: none; }
+            .desktop-only { display: block; }
+            .swiper-button-next, .swiper-button-prev { display: flex; }
+            .mySwiper { width: 400px; height: 520px; }
+            .map-container-single { width: 75%; }
+            .map-container-single iframe { height: 500px; }
+            .gift-buttons-container .btn-gold { flex: 1; max-width: 250px; padding: 15px 10px; justify-content: center; } 
+            .modal { display: none; position: fixed; z-index: 9999 !important; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.7); }
+            .modal-content { background-color: #fdfaf6; margin: 10% auto; padding: 30px; border-radius: 15px; width: 85%; max-width: 400px; text-align: center; position: relative; box-shadow: 0 5px 25px rgba(0,0,0,0.5); }
+            .close-modal { position: absolute; top: 15px; right: 20px; font-size: 35px; font-weight: bold; cursor: pointer; color: #b8926a; line-height: 1; }
+            .btn-copy { background-color: #b8926a; color: white; border: none; padding: 10px; border-radius: 5px; margin-top: 15px; cursor: pointer; width: 100%; }
+            .close-modal:hover { color: var(--vino); }
+            .bank-details { text-align: left; margin-top: 20px; background: #fff; padding: 15px; border-radius: 8px; border: 1px dashed #b8926a; }
+            .image-wrapper:hover img { transform: scale(1.05); }
+            .cover-text h1 { font-size: 5rem; letter-spacing: 10px; }
+            .cover-text p { font-size: 1.5rem; margin-top: 30px; }
+        }
     </style>
 </head>
 <body>
@@ -301,8 +193,8 @@
                 </div>
             </div>
 
-          <div style="flex: 1; min-width: 300px; text-align: left; padding-left: 20px; border-left: 2px solid #e0d5c8;">
-            <h2 class="cormorant" style="font-size: 28px; color: #b8926a; line-height: 1.4; margin: 0;">Hay momentos inolvidables que se atesoran en el corazón para siempre, por esa razón quiero que compartas conmigo este día tan especial. </h2>
+          <div style="flex: 1; min-width: 300px; text-align: left; padding-left: 20px; border-left: 2px solid #e0c8d2;">
+            <h2 class="cormorant" style="font-size: 28px; color: var(--dorado); line-height: 1.4; margin: 0;">Hay momentos inolvidables que se atesoran en el corazón para siempre, por esa razón quiero que compartas conmigo este día tan especial. </h2>
             <p class="cormorant" style="font-size: 28px; margin-bottom: 20px;">Gracias a mis padres:</p>
             <p class="cormorant" style="font-size: 28px;  margin: 0;">
                 Janelly Rodriguez Villalobos y Juan Carlos Jaime Cuellar
@@ -330,6 +222,46 @@
             </div>
         </section>
 
+        <section id="programa" class="container reveal">
+            <h2 class="cormorant" style="font-size: 36px;">Itinerario</h2>
+            <p>Se ofrecerá banquete de 3:00 p.m. a 1 a.m. </p>
+            <div class="timeline-container">
+                <div class="timeline-line"></div>
+                
+                <div class="timeline-item left reveal">
+                    <div class="timeline-icon"><i class="fas fa-cocktail"></i></div>
+                    <h3 class="cormorant">Bienvenida a los invitados</h3>
+                    <p class="montserrat" style="font-size: 13px; color: var(--dorado);">3:00 PM</p>
+                </div>
+                <div class="timeline-item right reveal">
+                    <div class="timeline-icon"><i class="fas fa-crown"></i></div>
+                    <h3 class="cormorant">Entrada de la quinceañera</h3>
+                    <p class="montserrat" style="font-size: 13px; color: var(--dorado);">4:00 PM</p>
+                </div>
+                <div class="timeline-item left reveal">
+                    <div class="timeline-icon"><i class="fas fa-utensils"></i></div>
+                    <h3 class="cormorant">Brindis y comida </h3>
+                    <p class="montserrat" style="font-size: 13px; color: var(--dorado);">5:00 PM</p>
+                </div>
+                <div class="timeline-item right reveal">
+                    <div class="timeline-icon"><i class="fas fa-compact-disc"></i></div>
+                    <h3 class="cormorant">Se abre ka pista</h3>
+                    <p class="montserrat" style="font-size: 13px; color: var(--dorado);">6:00 PM</p>
+                </div>
+                <div class="timeline-item left reveal">
+                    <div class="timeline-icon"><i class="fas fa-gifts"></i></div>
+                    <h3 class="cormorant">Sorpresas y hora loca</h3>
+                    <p class="montserrat" style="font-size: 13px; color: var(--dorado);">9:00 PM</p>
+                </div>
+
+                 <div class="timeline-item right reveal">
+                    <div class="timeline-icon"><i class="fas fa-champagne-glasses"></i></div>
+                    <h3 class="cormorant">Palabras de agradecimiento</h3>
+                    <p class="montserrat" style="font-size: 13px; color: var(--dorado);">1:00 AM</p>
+                </div>
+            </div>
+        </section>
+
         <section id="mesa-regalos" class="container reveal">
             <h3 class="montserrat" >Mesa de Regalos</h3>
             <p class="cormorant" style="margin-bottom: 30px; font-size: 26px;">Tu presencia es nuestro mejor regalo, pero si deseas tener un detalle:</p>
@@ -341,6 +273,7 @@
                     <i class="fas fa-shopping-bag"></i> LIVERPOOL
                 </a> 
             </div>
+            <p class="cormorant" style="margin-bottom: 30px; font-size: 26px; color: var(--dorado); font-style: italic;">Recuerda también, que en la fiesta se tendrá lluvia de sobres</p>
         </section>
 
         <section id="vestimenta" class="container reveal">
@@ -359,6 +292,18 @@
                 </div>
             </div>
         </section>
+
+        <div class="galeria-fotos">
+            <img src="img/2.jpg" alt="Foto 1">
+            <img src="img/3.jpg" alt="Foto 3">
+            <img src="img/5.jpg" alt="Foto 4">
+        </div>
+   
+        <div class="card" class="container reveal">
+            <div class="icon">📷</div> <p>¡No olvides etiquetarme en Instagram!</p>
+            <div class="handle"><a href="https://www.instagram.com/ode_.ttee">ode_.ttee</a> | <a href="https://www.instagram.com/jallenyrdz">jallenyrdz</a></div>
+            <p><i>#karefest</i></p>
+            </div>
 
         <section id="rsvp" class="container reveal">
             <h2 class="montserrat">Confirmar Asistencia</h2>
